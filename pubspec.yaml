@@ -61,6 +61,10 @@ dependencies:
   bloc:
 #  Splash Screen
   flutter_native_splash:
+#    awesome_notifications
+  awesome_notifications:
+  flutter_local_notifications:
+  palette_generator: ^0.3.3+3
 
 dev_dependencies:
   flutter_test:

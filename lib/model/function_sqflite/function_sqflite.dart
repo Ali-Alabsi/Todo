@@ -1,7 +1,6 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:todo/core/shared/date.dart';
 
-
 class SqfliteDB {
  static late Database database ;
  static createDataBase() async {
@@ -13,6 +12,8 @@ class SqfliteDB {
           try{
             await db.execute('CREATE TABLE tasks ( id INTEGER PRIMARY KEY , title TEXT  , details TEXT , date TEXT , time TEXT , status TEXT  )');
             print('Crate Table');
+
+
           }catch(e){
             print(e.toString());
           }
@@ -24,6 +25,7 @@ class SqfliteDB {
   }
 
  static Future insertToDataBase (title , desc) async{
+
    await database.transaction((txn)async {
       try{
         int id = await txn.rawInsert('INSERT INTO tasks(title ,details ,  date , time ,status )  VALUES( "$title", "$desc" ,"${formattedDate}" , "${formattedTime}" , "Tasks")');

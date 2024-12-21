@@ -2,10 +2,13 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:todo/view/button_notif.dart';
 import 'controller/const_controller/bloc.dart';
+import 'core/class/awesome_notifications.dart';
 import 'core/shared/colors.dart';
 import 'view/screen/layout/layout.dart';
-
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 void main() {
   Bloc.observer = MyBlocObserver();
   runApp(const MyApp());

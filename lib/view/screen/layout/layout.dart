@@ -12,7 +12,6 @@ import '../../../core/shared/colors.dart';
 import '../active/active.dart';
 import '../complete/complete.dart';
 
-
 class Layout extends StatelessWidget {
   Layout({Key? key}) : super(key: key);
 
