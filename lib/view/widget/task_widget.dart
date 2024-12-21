@@ -30,9 +30,9 @@ class CardItemTask extends StatelessWidget {
             Get.bottomSheet(
               showBottomSheetEditAndDelete(
                 todosCubit: TodosCubit.get(context),
-                indTask: TodosCubit.get(context).listTasks[index]['id'],
-                detailsTask: TodosCubit.get(context).listTasks[index]['details'],
-                titleTask: TodosCubit.get(context).listTasks[index]['title'],
+                indTask: TodosCubit.get(context).listTasks[index].id!,
+                detailsTask: TodosCubit.get(context).listTasks[index].details,
+                titleTask: TodosCubit.get(context).listTasks[index].title,
               ),
             );
           },
@@ -50,7 +50,7 @@ class CardItemTask extends StatelessWidget {
 
                   // -----------------
                   Text(
-                    "${TodosCubit.get(context).listTasks[index]['title']}",
+                    "${TodosCubit.get(context).listTasks[index].title}",
                     style: TextStyles.font22mainColorW600,
                     maxLines: 1,
                   ),
@@ -58,7 +58,7 @@ class CardItemTask extends StatelessWidget {
                     height: 5,
                   ),
                   Text(
-                    '${TodosCubit.get(context).listTasks[index]['details']}',
+                    '${TodosCubit.get(context).listTasks[index].details}',
                     style: TextStyles.font16grayColorW300,
                     textAlign: TextAlign.center,
                     maxLines: 3,
@@ -68,7 +68,7 @@ class CardItemTask extends StatelessWidget {
                     height: 5,
                   ),
                   Text(
-                      "[${TodosCubit.get(context).listTasks[index]['time']}] ${TodosCubit.get(context).listTasks[index]['date']}  ",
+                      "[${TodosCubit.get(context).listTasks[index].dateWrite}] ${TodosCubit.get(context).listTasks[index].dateEnd}  ",
                       style: TextStyles.font16grayColorW300),
                   SizedBox(
                     height: 5,
@@ -79,7 +79,7 @@ class CardItemTask extends StatelessWidget {
                       ButtonCheckAction(
                           onTap: () {
                             TodosCubit.get(context).updateToActive(
-                                TodosCubit.get(context).listTasks[index]['id']);
+                                TodosCubit.get(context).listTasks[index].id);
                           },
                           color: ProjectColors.greenColor,
                           icon: Icons.downloading),
@@ -89,7 +89,7 @@ class CardItemTask extends StatelessWidget {
                       ButtonCheckAction(
                         onTap: () {
                           TodosCubit.get(context).updateToComplete(
-                              TodosCubit.get(context).listTasks[index]['id']);
+                              TodosCubit.get(context).listTasks[index].id);
                         },
                       ),
                     ],

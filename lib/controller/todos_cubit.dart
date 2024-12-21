@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sqflite/sqflite.dart';
-
-import '../model/function_sqflite/function_sqflite.dart';
-
+import '../core/function_sqflite/function_sqflite.dart';
+import '../model/tasks_model.dart';
 import '../view/screen/active/active.dart';
 import '../view/screen/complete/complete.dart';
 import '../view/screen/setting/setting.dart';
@@ -34,14 +32,14 @@ class TodosCubit extends Cubit<TodosState> {
   //Create Data Base
   int c = 6;
   List<Map> listTodos = [];
-  List<Map> listActive = [];
-  List<Map> listComplete = [];
-  List<Map> listTasks = [];
+  List<TasksModel> listActive = [];
+  List<TasksModel> listComplete = [];
+  List<TasksModel> listTasks = [];
 
   createDataBase() async {
     try {
       await SqfliteDB.createDataBase();
-      listTodos = await SqfliteDB.getToDataBase();
+      // listTodos = await SqfliteDB.getToDataBase();
       // print(listTodos);
       emit(CreateDataBase());
     } catch (e) {
@@ -52,7 +50,11 @@ class TodosCubit extends Cubit<TodosState> {
   //Get DataBase
   getDataToTasks() async {
     try {
-      listTasks = await SqfliteDB.getToDataBaseWithStatus(Tasks);
+      listTasks = [];
+      final List<Map<String, dynamic>>? taskListMap = await SqfliteDB.getToDataBaseWithStatus('Tasks');
+      taskListMap?.forEach((taskMap) async {
+        listTasks.add(TasksModel.fromMap(taskMap));
+      });
       emit(GetTasksDataBase());
     } catch (e) {
       print(e);
@@ -61,7 +63,12 @@ class TodosCubit extends Cubit<TodosState> {
 
   void getDataToActive() async {
     try{
-      listActive = await SqfliteDB.getToDataBaseWithStatus('Active');
+     listActive = [];
+      // listActive = await SqfliteDB.getToDataBaseWithStatus('Active');
+      final List<Map<String, dynamic>>? taskListMap = await SqfliteDB.getToDataBaseWithStatus('Active');
+      taskListMap?.forEach((taskMap) async {
+        listActive.add(TasksModel.fromMap(taskMap));
+      });
       emit(GetActiveDataBase());
     }catch(e){
       print(e);
@@ -71,7 +78,11 @@ class TodosCubit extends Cubit<TodosState> {
 
   void getDataToComplete() async {
     try{
-      listComplete = await SqfliteDB.getToDataBaseWithStatus('Complete');
+      listComplete = [];
+      final List<Map<String, dynamic>>? taskListMap = await SqfliteDB.getToDataBaseWithStatus('Complete');
+      taskListMap?.forEach((taskMap) async {
+        listComplete.add(TasksModel.fromMap(taskMap));
+      });
       emit(GetCompleteDataBase());
     }catch(e){
       print(e);
@@ -118,6 +129,7 @@ void updateToActive(id){
   }
   // Update From Id
   Future updateFromDataBase(id,title, details ) async{
+
     await  SqfliteDB.updateFromDataBase('$title','$details',id).then((value) {
       emit(UpdateFromDataBase());
       getDataToTasks();

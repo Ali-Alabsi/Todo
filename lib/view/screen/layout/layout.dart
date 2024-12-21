@@ -6,7 +6,6 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:todo/controller/todos_cubit.dart';
 import 'package:todo/core/controller/controller_var.dart';
 import 'package:todo/core/dialog/insert_dialog.dart';
-import 'package:todo/model/function_sqflite/function_sqflite.dart';
 import '../../../core/dialog/success_dialog.dart';
 import '../../../core/shared/colors.dart';
 import '../active/active.dart';
@@ -14,7 +13,6 @@ import '../complete/complete.dart';
 
 class Layout extends StatelessWidget {
   Layout({Key? key}) : super(key: key);
-
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +109,6 @@ class Layout extends StatelessWidget {
         //   },
         // )
         ,
-
       ),
     );
   }

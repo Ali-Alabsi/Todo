@@ -29,7 +29,9 @@ class CardItemActive extends StatelessWidget {
             Get.bottomSheet(
               showBottomSheetEditAndDelete(
                 todosCubit: TodosCubit.get(context),
-                indTask: TodosCubit.get(context).listActive[index]['id'],
+                indTask: TodosCubit.get(context).listActive[index].id!,
+                titleTask: TodosCubit.get(context).listActive[index].title,
+                detailsTask: TodosCubit.get(context).listActive[index].details,
               ),
             );
           },
@@ -45,7 +47,7 @@ class CardItemActive extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    '${obCubit.listActive[index]['title']}',
+                    '${obCubit.listActive[index].title}',
                     style: TextStyles.font22mainColorW600,
                     maxLines: 1,
                   ),
@@ -53,7 +55,7 @@ class CardItemActive extends StatelessWidget {
                     height: 5,
                   ),
                   Text(
-                    '${obCubit.listActive[index]['details']} ',
+                    '${obCubit.listActive[index].details} ',
                     style: TextStyles.font16grayColorW300,
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
@@ -61,7 +63,7 @@ class CardItemActive extends StatelessWidget {
                   SizedBox(
                     height: 5,
                   ),
-                  Text('[${obCubit.listActive[index]['time']}] ${obCubit.listActive[index]['date']}  ',
+                  Text('[${obCubit.listActive[index].dateWrite}] ${obCubit.listActive[index].dateEnd}  ',
                       style: TextStyles.font16grayColorW300),
                   SizedBox(
                     height: 5,
@@ -73,7 +75,7 @@ class CardItemActive extends StatelessWidget {
                         color: ProjectColors.tealColor,
                         icon: Icons.menu,
                         onTap: (){
-                          obCubit.updateToTasks(obCubit.listActive[index]['id']);
+                          obCubit.updateToTasks(obCubit.listActive[index].id);
                         },
                       ),
                       SizedBox(
@@ -83,7 +85,7 @@ class CardItemActive extends StatelessWidget {
                         color: ProjectColors.greenColor,
                         icon: Icons.check,
                         onTap: (){
-                          obCubit.updateToComplete(obCubit.listActive[index]['id']);
+                          obCubit.updateToComplete(obCubit.listActive[index].id);
                         },
                       ),
                     ],

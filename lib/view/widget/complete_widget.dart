@@ -30,7 +30,9 @@ class CardItemCompete extends StatelessWidget {
             Get.bottomSheet(
               showBottomSheetEditAndDelete(
                 todosCubit: TodosCubit.get(context),
-                indTask: TodosCubit.get(context).listComplete[index]['id'],
+                indTask: TodosCubit.get(context).listComplete[index].id!,
+                titleTask: TodosCubit.get(context).listComplete[index].title,
+                detailsTask: TodosCubit.get(context).listComplete[index].details,
               ),
             );
           },
@@ -45,7 +47,7 @@ class CardItemCompete extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    '${obCubit.listComplete[index]['title']}',
+                    '${obCubit.listComplete[index].title}',
                     style: TextStyles.font22mainColorW600,
                     maxLines: 1,
                   ),
@@ -53,7 +55,7 @@ class CardItemCompete extends StatelessWidget {
                     height: 5,
                   ),
                   Text(
-                    '${obCubit.listComplete[index]['details']}',
+                    '${obCubit.listComplete[index].details}',
                     style: TextStyles.font16grayColorW300,
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
@@ -61,7 +63,7 @@ class CardItemCompete extends StatelessWidget {
                   SizedBox(
                     height: 5,
                   ),
-                  Text('[${obCubit.listComplete[index]['time']}] ${obCubit.listComplete[index]['sate']}  ',
+                  Text('[${obCubit.listComplete[index].dateWrite}] ${obCubit.listComplete[index].dateEnd}  ',
                       style: TextStyles.font16grayColorW300),
                   SizedBox(
                     height: 5,
@@ -73,7 +75,7 @@ class CardItemCompete extends StatelessWidget {
                         color: ProjectColors.tealColor,
                         icon: Icons.menu,
                         onTap: (){
-                          obCubit.updateToActive(obCubit.listComplete[index]['id']);
+                          obCubit.updateToActive(obCubit.listComplete[index].id);
                         },
                       ),
                       SizedBox(
@@ -83,7 +85,7 @@ class CardItemCompete extends StatelessWidget {
                         color: ProjectColors.mainColor,
                         icon: Icons.downloading,
                         onTap: (){
-                          obCubit.updateToActive(obCubit.listComplete[index]['id']);
+                          obCubit.updateToActive(obCubit.listComplete[index].id);
                         },
                       ),
                     ],
