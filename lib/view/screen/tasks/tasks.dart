@@ -44,6 +44,7 @@ class Tasks extends StatelessWidget {
             onPressed: () async {
               insertDialog(
                   context: context,
+
                   ButtonSave: Expanded(
                     child: AnimatedButton(
                       color: ProjectColors.greenColor,
@@ -53,7 +54,7 @@ class Tasks extends StatelessWidget {
                         if (formKey.currentState!.validate()) {
                           TodosCubit.get(context)
                               .insertToDataBase(ControllerVar.titleTasks.text,
-                                  ControllerVar.descTasks.text)
+                                  ControllerVar.descTasks.text ,ControllerVar.dateEndTasks.text )
                               .then((value) {
                             Get.back();
                             successDialog(

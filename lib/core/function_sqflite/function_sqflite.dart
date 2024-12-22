@@ -1,5 +1,7 @@
+import 'package:intl/intl.dart';
 import 'package:sqflite/sqflite.dart';
 import '../../model/tasks_model.dart';
+import '../shared/date.dart';
 
 
 class SqfliteDB {
@@ -25,14 +27,14 @@ class SqfliteDB {
     );
   }
 
- static Future insertToDataBase (title , desc) async{
+ static Future insertToDataBase (title , desc, dateEnd) async{
 
    await database.transaction((txn)async {
       try{
         final task = TasksModel(
           title: title,
-          dateWrite: "2024-12-21",
-          dateEnd: "2024-12-22",
+          dateWrite: DateFormat('yyyy-MM-dd HH:mm').format(now),
+          dateEnd: dateEnd,
           details: desc,
         );
         int id = await txn.insert('tasks', task.toMap());
@@ -70,10 +72,10 @@ class SqfliteDB {
 
   }
 
- static updateFromDataBase ( title  ,details , id ) async{
+ static updateFromDataBase ( title  ,details , dateEnd , id ) async{
    final int result = await database.update(
        'Tasks',
-       {'title':title , 'details':details},
+       {'title':title , 'details':details , 'dateEnd':dateEnd },
        where: 'id =?',
        whereArgs: [id]
    );

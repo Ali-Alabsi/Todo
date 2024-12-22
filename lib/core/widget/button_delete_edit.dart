@@ -15,13 +15,14 @@ class showBottomSheetEditAndDelete extends StatelessWidget {
      required this.todosCubit,
     required this.indTask,
     this.titleTask,
-    this.detailsTask,
+    this.detailsTask, this.dateEndTask,
   });
 
 
   final TodosCubit todosCubit;
   final int indTask;
   final String? titleTask;
+  final String? dateEndTask;
   final String? detailsTask;
   @override
   Widget build(BuildContext context) {
@@ -97,6 +98,7 @@ class showBottomSheetEditAndDelete extends StatelessWidget {
               // todosCubit.updateFromDataBase( indTask);
               ControllerVar.titleTasks.text =titleTask!;
               ControllerVar.descTasks.text =detailsTask!;
+              ControllerVar.dateEndTasks.text =dateEndTask!;
               insertDialog(
                 name: 'تعديل البيانات',
                   context: context,
@@ -107,7 +109,7 @@ class showBottomSheetEditAndDelete extends StatelessWidget {
                       text: 'حفظ',
                       pressEvent: () async {
                         if (formKey.currentState!.validate()) {
-                          todosCubit.updateFromDataBase(indTask, ControllerVar.titleTasks.text ,ControllerVar.descTasks.text)
+                          todosCubit.updateFromDataBase(indTask, ControllerVar.titleTasks.text ,ControllerVar.descTasks.text , ControllerVar.dateEndTasks.text)
                               .then((value) {
                             Get.back();
                             successDialog(

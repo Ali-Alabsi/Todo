@@ -22,7 +22,7 @@ class CardItemActive extends StatelessWidget {
     return BlocConsumer<TodosCubit, TodosState>(
       listener: (context, state) {
       },
-      builder: (context, state) {
+      builder: (contextt, state) {
         return InkWell(
           onLongPress: (){
             // TodosCubit.get(context).deleteFromDataBase(TodosCubit.get(context).listTasks[index]['id']);
@@ -32,6 +32,7 @@ class CardItemActive extends StatelessWidget {
                 indTask: TodosCubit.get(context).listActive[index].id!,
                 titleTask: TodosCubit.get(context).listActive[index].title,
                 detailsTask: TodosCubit.get(context).listActive[index].details,
+                dateEndTask: TodosCubit.get(context).listActive[index].dateEnd,
               ),
             );
           },
@@ -63,8 +64,50 @@ class CardItemActive extends StatelessWidget {
                   SizedBox(
                     height: 5,
                   ),
-                  Text('[${obCubit.listActive[index].dateWrite}] ${obCubit.listActive[index].dateEnd}  ',
-                      style: TextStyles.font16grayColorW300),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text(' الكتابة',
+                                  style: TextStyles.font14mainColorW400,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1),
+                            ),
+                            Text(
+                                ' ${TodosCubit.get(context).listActive[index].dateWrite}',
+                                style: TextStyles.font16grayColorW300,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1
+                            ),
+
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text(' الانتهاء',
+                                maxLines: 1,
+                                style: TextStyles.font14mainColorW400,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            Text(
+                              ' ${TodosCubit.get(context).listActive[index].dateEnd}',
+                              style: TextStyles.font16grayColorW300,
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                   SizedBox(
                     height: 5,
                   ),
@@ -75,7 +118,7 @@ class CardItemActive extends StatelessWidget {
                         color: ProjectColors.tealColor,
                         icon: Icons.menu,
                         onTap: (){
-                          obCubit.updateToTasks(obCubit.listActive[index].id);
+                          obCubit.updateToTasks(obCubit.listActive[index].id ,context);
                         },
                       ),
                       SizedBox(
@@ -85,7 +128,7 @@ class CardItemActive extends StatelessWidget {
                         color: ProjectColors.greenColor,
                         icon: Icons.check,
                         onTap: (){
-                          obCubit.updateToComplete(obCubit.listActive[index].id);
+                          obCubit.updateToComplete(obCubit.listActive[index].id, context);
                         },
                       ),
                     ],

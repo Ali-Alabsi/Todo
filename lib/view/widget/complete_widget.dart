@@ -23,7 +23,7 @@ class CardItemCompete extends StatelessWidget {
 
       listener: (context, state) {
       },
-      builder: (context, state) {
+      builder: (contextt, state) {
         var obCubit = TodosCubit.get(context);
         return InkWell(
           onLongPress: (){
@@ -33,6 +33,7 @@ class CardItemCompete extends StatelessWidget {
                 indTask: TodosCubit.get(context).listComplete[index].id!,
                 titleTask: TodosCubit.get(context).listComplete[index].title,
                 detailsTask: TodosCubit.get(context).listComplete[index].details,
+                dateEndTask: TodosCubit.get(context).listComplete[index].dateEnd,
               ),
             );
           },
@@ -63,8 +64,50 @@ class CardItemCompete extends StatelessWidget {
                   SizedBox(
                     height: 5,
                   ),
-                  Text('[${obCubit.listComplete[index].dateWrite}] ${obCubit.listComplete[index].dateEnd}  ',
-                      style: TextStyles.font16grayColorW300),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text(' الكتابة',
+                                  style: TextStyles.font14mainColorW400,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1),
+                            ),
+                            Text(
+                                ' ${TodosCubit.get(context).listComplete[index].dateWrite}',
+                                style: TextStyles.font16grayColorW300,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1
+                            ),
+
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text(' الانتهاء',
+                                maxLines: 1,
+                                style: TextStyles.font14mainColorW400,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            Text(
+                              ' ${TodosCubit.get(context).listComplete[index].dateEnd}',
+                              style: TextStyles.font16grayColorW300,
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                   SizedBox(
                     height: 5,
                   ),
@@ -75,7 +118,7 @@ class CardItemCompete extends StatelessWidget {
                         color: ProjectColors.tealColor,
                         icon: Icons.menu,
                         onTap: (){
-                          obCubit.updateToActive(obCubit.listComplete[index].id);
+                          obCubit.updateToTasks(obCubit.listComplete[index].id , context);
                         },
                       ),
                       SizedBox(
@@ -85,7 +128,7 @@ class CardItemCompete extends StatelessWidget {
                         color: ProjectColors.mainColor,
                         icon: Icons.downloading,
                         onTap: (){
-                          obCubit.updateToActive(obCubit.listComplete[index].id);
+                          obCubit.updateToActive(obCubit.listComplete[index].id , context);
                         },
                       ),
                     ],

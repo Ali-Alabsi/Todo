@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
+import '../core/dialog/success_dialog.dart';
 import '../core/function_sqflite/function_sqflite.dart';
 import '../model/tasks_model.dart';
 import '../view/screen/active/active.dart';
@@ -91,46 +93,56 @@ class TodosCubit extends Cubit<TodosState> {
   }
 
   // Insert To Data Base
-  Future insertToDataBase(title , desc) async {
-   await SqfliteDB.insertToDataBase('$title', '$desc').then((value) {
+  Future insertToDataBase(title , desc , dateEnd) async {
+   await SqfliteDB.insertToDataBase('$title', '$desc' , dateEnd).then((value) {
       emit(InsertToDataBase());
       getDataToTasks();
     });
 
   }
   // Update To Active
-void updateToActive(id){
+void updateToActive(id, context)async {
     SqfliteDB.updateFromDataBaseWithStatus(id, "Active").then((value) {
       emit(UpdateActiveInDataBase());
       getDataToTasks();
       getDataToComplete();
       getDataToActive();
+    }).then((value){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('تم تحويل المهمة الى قائمة المهام النشطة بنجاح')));
+
     });
+
 
 }
 
-  void updateToComplete(id){
+  void updateToComplete(id,context) {
     SqfliteDB.updateFromDataBaseWithStatus(id, "Complete").then((value) {
       emit(UpdateCompleteInDataBase());
       getDataToTasks();
       getDataToComplete();
       getDataToActive();
+    }).then((value){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('تم تحويل المهمة الى قائمة المهام المكتملة بنجاح')));
+
     });
 
   }
-  void updateToTasks(id){
+  void updateToTasks(id, context){
     SqfliteDB.updateFromDataBaseWithStatus(id, "Tasks").then((value) {
       emit(UpdateCompleteInDataBase());
       getDataToTasks();
       getDataToComplete();
       getDataToActive();
+    }).then((value){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('تم تحويل المهمة الى قائمة المهام الرئسية بنجاح')));
+
     });
 
   }
   // Update From Id
-  Future updateFromDataBase(id,title, details ) async{
+  Future updateFromDataBase(id,title, details , dateEnd ) async{
 
-    await  SqfliteDB.updateFromDataBase('$title','$details',id).then((value) {
+    await  SqfliteDB.updateFromDataBase('$title','$details',dateEnd ,id).then((value) {
       emit(UpdateFromDataBase());
       getDataToTasks();
       getDataToComplete();

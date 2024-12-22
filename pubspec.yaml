@@ -65,6 +65,8 @@ dependencies:
   awesome_notifications:
   flutter_local_notifications:
   palette_generator: ^0.3.3+3
+  # Insert TextFormFiled Date
+  date_field:
 
 dev_dependencies:
   flutter_test:

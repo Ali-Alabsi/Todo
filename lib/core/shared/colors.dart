@@ -13,6 +13,7 @@ class ProjectColors {
   static Color greyColors200 = Colors.grey.shade200;
   static Color amberColor =  Colors.amber;
   static Color greyColor =  Colors.grey;
+  static Color redColor =  Colors.red;
   static Color greenColor =  Colors.green;
   static Color tealColor =  Colors.teal;
   static const Color grayColors = Color.fromRGBO(212, 212, 212, 1);
