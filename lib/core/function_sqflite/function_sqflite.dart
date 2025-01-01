@@ -8,12 +8,13 @@ class SqfliteDB {
  static late Database database ;
  static createDataBase() async {
     database  = await openDatabase(
-        'todo1.db',
+        'todo2.db',
         version: 2,
         onCreate: (Database db , int version)async {
           print('Create DataBase');
           try{
             await db.execute('CREATE TABLE tasks ( id INTEGER PRIMARY KEY , title TEXT  , details TEXT , dateWrite TEXT , dateEnd TEXT , status TEXT  )');
+            await db.execute('CREATE TABLE users ( id INTEGER PRIMARY KEY , name TEXT  , email TEXT , phone TEXT , image TEXT  )');
             print('Crate Table');
 
 
