@@ -15,4 +15,8 @@ final class UsersLoadedUpdate extends UsersState {}
 final class UsersErrorUpdate extends UsersState {}
 final class UsersLoadingImage extends UsersState {}
 final class UsersLoadedImage extends UsersState {}
+final class UsersErrorImage extends UsersState {}
+final class UsersLoadingDelete extends UsersState {}
+final class UsersLoadedDelete extends UsersState {}
+final class UsersErrorDelete extends UsersState {}
 

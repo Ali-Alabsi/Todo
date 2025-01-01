@@ -3,10 +3,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/controller/users_cubit.dart';
+import 'package:todo/view/screen/setting/insert_profile.dart';
 
 import '../../core/shared/colors.dart';
 import '../../core/shared/text_styles.dart';
 import '../screen/setting/edit_profile.dart';
+import '../screen/setting/natifications.dart';
 
 class ListItemInSettingPage extends StatelessWidget {
   const ListItemInSettingPage({
@@ -21,27 +23,12 @@ class ListItemInSettingPage extends StatelessWidget {
           SizedBox(
             height: 15,
           ),
-          BlocConsumer<UsersCubit, UsersState>(
-            listener: (context, state) {
-              // TODO: implement listener
-            },
-            builder: (context, state) {
-              return ItemInSettingPage(
-                  title: 'تعديل البروفايل',
-                  icon: Icons.account_circle,
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => EditProfile(
-                                  usersCubit: UsersCubit.get(context),
-                                  usersState: UsersCubit.get(context).state,
-                                )));
-                  });
-            },
-          ),
+          ItemEditAndInsertUsers(),
           ItemInSettingPage(
-              title: 'الاشعارات', icon: Icons.notifications, onTap: () {}),
+              title: 'الاشعارات', icon: Icons.notifications, onTap: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => Notifications()));
+          }),
           ItemInSettingPage(
               title: 'تواصل معنا', icon: Icons.call, onTap: () {}),
           ItemInSettingPage(
@@ -63,7 +50,15 @@ class ButtonSignOut extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: () async {
+          await UsersCubit.get(context).deleteUsers();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('تم حذف معلومات الحساب'),
+              backgroundColor: ProjectColors.mainColor,
+            ),
+          );
+        },
         child:
             Text('حذف معلومات الحساب', style: TextStyles.font16whiteColorW300),
         style: ElevatedButton.styleFrom(
@@ -112,49 +107,35 @@ class ItemInSettingPage extends StatelessWidget {
 }
 
 class ViewImageInSetting extends StatelessWidget {
-  final String imageURL;
+  final String? imageURL;
 
   const ViewImageInSetting({
     super.key,
-    required this.imageURL,
+    this.imageURL,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        CircleAvatar(
-          radius: 75,
-          child: Container(
-            height: 130,
-            width: 130,
-            decoration: BoxDecoration(
-              color: ProjectColors.mainColor.withOpacity(0.5),
-              borderRadius: BorderRadius.circular(100),
-            ),
-            clipBehavior: Clip.antiAliasWithSaveLayer,
-            child: // image png
-                Image.file(
-              File(imageURL),
-              fit: BoxFit.cover,
-            ),
-
-            // Icon(
-            //   Icons.account_circle_sharp,
-            //   size: 130,
-            // ),
-          ),
+    return CircleAvatar(
+      radius: 75,
+      child: Container(
+        height: 130,
+        width: 130,
+        decoration: BoxDecoration(
+          color: ProjectColors.mainColor.withOpacity(0.5),
+          borderRadius: BorderRadius.circular(100),
         ),
-        Positioned(
-            bottom: 10,
-            child: Card(
-              child: Icon(
-                Icons.edit,
-                size: 30,
-                color: ProjectColors.mainColor,
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        child: imageURL != null
+            ? Image.file(
+                File(imageURL!),
+                fit: BoxFit.cover,
+              )
+            : Icon(
+                Icons.account_circle_sharp,
+                size: 130,
               ),
-            ))
-      ],
+      ),
     );
   }
 }
@@ -164,4 +145,68 @@ AppBar appBarSetting() {
     backgroundColor: ProjectColors.mainColor,
     title: Text('الاعدادت'),
   );
+}
+
+class ItemEditAndInsertUsers extends StatelessWidget {
+  const ItemEditAndInsertUsers({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocConsumer<UsersCubit, UsersState>(
+      listener: (context, state) {
+        // TODO: implement listener
+      },
+      builder: (context, state) {
+        return UsersCubit.get(context).listUsers.isNotEmpty
+            ? ButtonEditUserInPageSetting()
+            : ButtonInsertUserInPageSetting();
+      },
+    );
+  }
+}
+
+class ButtonEditUserInPageSetting extends StatelessWidget {
+  const ButtonEditUserInPageSetting({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ItemInSettingPage(
+        title: 'تعديل البروفايل',
+        icon: Icons.account_circle,
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => EditProfile(
+                        usersCubit: UsersCubit.get(context),
+                        usersState: UsersCubit.get(context).state,
+                      )));
+        });
+  }
+}
+
+class ButtonInsertUserInPageSetting extends StatelessWidget {
+  const ButtonInsertUserInPageSetting({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ItemInSettingPage(
+        title: 'اضافة البروفايل',
+        icon: Icons.account_circle,
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => InsertProfile(
+                        usersCubit: UsersCubit.get(context),
+                        usersState: UsersCubit.get(context).state,
+                      )));
+        });
+  }
 }

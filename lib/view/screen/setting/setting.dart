@@ -29,7 +29,7 @@ class Setting extends StatelessWidget {
                 // mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   UsersCubit.get(context).listUsers.length >0 ?  ViewImageInSetting(
-                    imageURL: UsersCubit.get(context).listUsers[0].image) :CircularProgressIndicator(),
+                    imageURL: UsersCubit.get(context).listUsers[0].image) :ViewImageInSetting(imageURL: null),
                   SizedBox(
                     height: 10,
                   ),

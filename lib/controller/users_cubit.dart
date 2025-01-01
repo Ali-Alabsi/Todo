@@ -17,20 +17,22 @@ class UsersCubit extends Cubit<UsersState> {
   List<usersModel> listUsers=[] ;
   File? image;
   final picker = ImagePicker();
+  final formKey = GlobalKey<FormState>();
   // Insert New User
-  insertUser() {
+  Future insertUser() async {
     emit(UsersLoadingInsert());
-    SqfliteDB.database.transaction((txn) async {
-      final user = usersModel(
-        name: 'Ahmed',
-        email: 'ahmed@gmail.com',
-        phone: '01010101010',
-        image: 'assets/svg/LogoTodoSplashScreen.png',
-      );
-      int id = await txn.insert('users', user.toMap());
-      print('Insert Tasks Number $id ');
-    });
     try {
+      SqfliteDB.database.transaction((txn) async {
+        final user = usersModel(
+          name: nameController.text,
+          email: emailController.text,
+          phone: phoneController.text,
+          image: image!.path,
+        );
+        int id = await txn.insert('users', user.toMap());
+         getUser();
+        print('Insert Tasks Number $id ');
+      });
       emit(UsersLoadedInsert());
     } catch (e) {
       emit(UsersErrorInsert());
@@ -93,6 +95,20 @@ class UsersCubit extends Cubit<UsersState> {
       }
     }catch(e){
       // emit(UsersError());
+    }
+  }
+  // Delete Users
+  deleteUsers() async {
+    emit(UsersLoadingDelete());
+    try {
+      await SqfliteDB.database.transaction((txn) async {
+        int id = await txn.delete('users');
+        getUser();
+        emit(UsersLoadedDelete());
+        print('Delete Tasks Number $id ');
+      });
+    } catch (e) {
+      emit(UsersErrorDelete());
     }
   }
 
