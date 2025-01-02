@@ -23,6 +23,8 @@ class _NotificationsState extends State<Notifications> {
   @override
   void initState() {
     super.initState();
+
+    // Initialize the notification plugin
     flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     const AndroidInitializationSettings initializationSettingsAndroid =
     AndroidInitializationSettings('app_icon');
@@ -31,53 +33,81 @@ class _NotificationsState extends State<Notifications> {
     flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
       onDidReceiveNotificationResponse: (NotificationResponse response) async {
-        // Handle notification tapped logic here
+        print('Notification tapped with payload: ${response.payload}');
       },
     );
 
+    // Initialize time zones
     tz.initializeTimeZones();
+    print('Time zone initialized.');
+
     _loadTasks();
   }
 
   Future<void> _loadTasks() async {
-    final List<Map<String, dynamic>>? maps = await SqfliteDB.getToDataBaseWithStatus('Tasks');
-    if (maps != null) {
-      setState(() {
-        tasks = List.generate(maps.length, (i) {
-          return TasksModel.fromMap(maps[i]);
+    try {
+      final List<Map<String, dynamic>>? maps =
+      await SqfliteDB.getToDataBaseWithStatus('Tasks');
+      if (maps != null) {
+        setState(() {
+          tasks = List.generate(maps.length, (i) {
+            return TasksModel.fromMap(maps[i]);
+          });
         });
-      });
-      _scheduleTaskNotifications();
+        print('Tasks loaded successfully: ${tasks.length} tasks found.');
+        _scheduleTaskNotifications();
+      } else {
+        print('No tasks found in the database.');
+      }
+    } catch (e) {
+      print('Error loading tasks: $e');
     }
   }
 
   Future<void> _scheduleTaskNotifications() async {
     for (var task in tasks) {
-      final tz.TZDateTime scheduledDate = tz.TZDateTime.parse(tz.local, task.dateEnd);
-      if (scheduledDate.isAfter(tz.TZDateTime.now(tz.local))) {
-        await flutterLocalNotificationsPlugin.zonedSchedule(
-          task.id!,
-          'Task Reminder',
-          'It\'s time for your task: ${task.title}',
-          scheduledDate,
-          const NotificationDetails(
-            android: AndroidNotificationDetails(
-              'task_notification_channel_id',
-              'Task Notifications',
-              importance: Importance.max,
-              priority: Priority.high,
+      try {
+        final tz.TZDateTime scheduledDate =
+        tz.TZDateTime.parse(tz.local, task.dateEnd);
+        final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
+
+        print('Current time: $now');
+        print('Scheduled time for ${task.title}: $scheduledDate');
+
+        if (scheduledDate.isAfter(now)) {
+          await flutterLocalNotificationsPlugin.zonedSchedule(
+            task.id!,
+            'Task Reminder',
+            'It\'s time for your task: ${task.title}',
+            scheduledDate,
+            const NotificationDetails(
+              android: AndroidNotificationDetails(
+                'task_notification_channel_id',
+                'Task Notifications',
+                channelDescription: 'This channel is used for task reminders',
+                importance: Importance.max,
+                priority: Priority.high,
+              ),
             ),
-          ),
-          androidAllowWhileIdle: true,
-          uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.wallClockTime,
-        );
+            androidAllowWhileIdle: true,
+            uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.wallClockTime,
+          );
+          print('Notification scheduled successfully for task: ${task.title}');
+        } else {
+          print(
+              'Scheduled time for task "${task.title}" is in the past. Skipping.');
+        }
+      } catch (e) {
+        print('Error scheduling notification for task "${task.title}": $e');
       }
     }
   }
 
   String _getRemainingTime(String dateEnd) {
     final tz.TZDateTime scheduledDate = tz.TZDateTime.parse(tz.local, dateEnd);
-    final Duration difference = scheduledDate.difference(tz.TZDateTime.now(tz.local));
+    final Duration difference =
+    scheduledDate.difference(tz.TZDateTime.now(tz.local));
     if (difference.isNegative) {
       return 'Time passed';
     } else {
@@ -90,7 +120,7 @@ class _NotificationsState extends State<Notifications> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: ProjectColors.mainColor,
-        title: Text('الاشعارات'),
+        title: Text('الإشعارات'),
       ),
       body: Column(
         children: [
@@ -125,7 +155,6 @@ class _NotificationsState extends State<Notifications> {
     );
   }
 }
-
 
 
 

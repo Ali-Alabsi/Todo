@@ -10,10 +10,34 @@ import 'controller/users_cubit.dart';
 import 'core/class/awesome_notifications.dart';
 import 'core/shared/colors.dart';
 import 'view/screen/layout/layout.dart';
-
+import 'package:timezone/data/latest.dart' as tz;
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize FlutterLocalNotificationsPlugin
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  FlutterLocalNotificationsPlugin();
+
+  // Initialize Android-specific settings
+  const AndroidInitializationSettings initializationSettingsAndroid =
+  AndroidInitializationSettings('app_icon');
+
+  // Combine platform-specific settings
+  const InitializationSettings initializationSettings =
+  InitializationSettings(android: initializationSettingsAndroid);
+
+  // Initialize plugin
+  await flutterLocalNotificationsPlugin.initialize(
+    initializationSettings,
+    onDidReceiveNotificationResponse: (NotificationResponse response) async {
+      print('Notification clicked: ${response.payload}');
+    },
+  );
+
+  // Initialize time zones
+  tz.initializeTimeZones();
   Bloc.observer = MyBlocObserver();
   runApp(
       MultiBlocProvider (

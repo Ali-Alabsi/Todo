@@ -75,6 +75,8 @@ dependencies:
   eva_icons_flutter:
 # URL Launcher
   url_launcher:
+    # Library For Flutter To Get Permission
+  permission_handler:
 
 dev_dependencies:
   flutter_test:

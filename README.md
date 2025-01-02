@@ -1,16 +1,23 @@
-# todo
+# Task Manager Application
 
-A new Flutter project.
+## Description
+This application is designed to manage tasks efficiently, featuring three primary pages for organizing tasks and a settings page for user preferences and notifications.
 
-## Getting Started
+### Features
+1. Task Management:
+    - Main Tasks: View all active tasks.
+    - Under Loading: View tasks currently in progress.
+    - Completed Tasks: View tasks marked as completed.
+    - Add, edit, or delete tasks as needed.
 
-This project is a starting point for a Flutter application.
+2. Settings:
+    - User Information: Add or update user details.
+    - Notifications: Manage local notifications for tasks.
+    - Contact Us: Provides a way to contact the support team or developers.
 
-A few resources to get you started if this is your first Flutter project:
+---
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Installation
+1. Clone the repository:
+   ```bash
+   git clonehttps://github.com/Ali-Alabsi/Todo
