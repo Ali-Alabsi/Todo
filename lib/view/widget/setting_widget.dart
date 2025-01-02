@@ -7,8 +7,10 @@ import 'package:todo/view/screen/setting/insert_profile.dart';
 
 import '../../core/shared/colors.dart';
 import '../../core/shared/text_styles.dart';
+import '../screen/setting/contact_us.dart';
 import '../screen/setting/edit_profile.dart';
 import '../screen/setting/natifications.dart';
+import '../screen/setting/privacy_policy.dart';
 
 class ListItemInSettingPage extends StatelessWidget {
   const ListItemInSettingPage({
@@ -25,14 +27,20 @@ class ListItemInSettingPage extends StatelessWidget {
           ),
           ItemEditAndInsertUsers(),
           ItemInSettingPage(
-              title: 'الاشعارات', icon: Icons.notifications, onTap: () {
+              title: 'الاشعارات والمهام المتبقية', icon: Icons.notifications, onTap: () {
             Navigator.push(
                 context, MaterialPageRoute(builder: (context) => Notifications()));
           }),
           ItemInSettingPage(
-              title: 'تواصل معنا', icon: Icons.call, onTap: () {}),
+              title: 'تواصل معنا', icon: Icons.call, onTap: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => ContactUs()));
+          }),
           ItemInSettingPage(
-              title: 'سياسة الخصوصية', icon: Icons.privacy_tip, onTap: () {}),
+              title: 'سياسة الخصوصية', icon: Icons.privacy_tip, onTap: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => PrivacyPolicy()));
+          }),
           ButtonSignOut()
         ],
       ),

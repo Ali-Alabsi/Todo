@@ -63,10 +63,18 @@ dependencies:
   flutter_native_splash:
 #    awesome_notifications
   awesome_notifications:
-  flutter_local_notifications:
+  flutter_local_notifications: ^17.2.4
   palette_generator: ^0.3.3+3
   # Insert TextFormFiled Date
   date_field:
+#  Notification
+  device_info_plus: 
+  flutter_timezone:
+  path_provider:
+# Icons In Flutter
+  eva_icons_flutter:
+# URL Launcher
+  url_launcher:
 
 dev_dependencies:
   flutter_test:
@@ -96,6 +104,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/svg/
+    - assets/images/
 #     - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
